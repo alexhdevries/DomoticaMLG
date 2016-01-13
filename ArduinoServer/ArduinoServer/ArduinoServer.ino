@@ -41,6 +41,9 @@ RCSwitch actionTransmitter = RCSwitch();  // Intantiate a new ActionTransmitter 
 bool pinState = false;                   // Variable to store actual pin state
 bool pinChange = false;                  // Variable to store actual pin change
 int  sensorValue = 0;                    // Variable to store actual sensor value
+int sw1 = 0;
+int sw2 = 0;
+int sw3 = 0;
 
 void setup()
 {
@@ -155,6 +158,24 @@ void executeCommand(char cmd)
 		break;
 	default:
 		digitalWrite(infoPin, LOW);
+    case '1' :  // Toggle switch 1
+        sw1 = sw1 +1;
+		if( sw1 % 2 == 1)
+			{mySwitch.send(10844527, 24);}
+		else {mySwitch.send(10844526, 24);}
+        break;
+	case '2' :  // Toggle switch 2
+        sw2 = sw2 +1;
+		if( sw2 % 2 == 1)
+			{mySwitch.send(10844525, 24);}
+		else {mySwitch.send(10844524, 24);}
+		break;
+	case '3' :  // Toggle switch 3
+        sw2 = sw2 +1;
+		if( sw2 % 2 == 1)
+			{mySwitch.send(10844523, 24);}
+		else {mySwitch.send(10844522, 24);}	
+		break;
 	}
 }
 
