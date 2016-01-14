@@ -26,3 +26,35 @@ Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\res\drawable\ico
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\res\menu\menu.xml
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\R.cs.flag
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\uploadflags.txt
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\bin\Debug\Domotica.dll
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\bin\Debug\Domotica.pdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\bin\Debug\Domotica.Domotica.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\bin\Debug\Domotica.Domotica-Signed.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\Domotica.csprojResolveAssemblyReference.cache
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\Domotica.dll
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\Domotica.pdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\android\bin\Domotica.Domotica.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\res\layout\main.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\res\values\strings.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\res\drawable\icon.png
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\res\menu\menu.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\R.cs.flag
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\uploadflags.txt
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\obj\Debug\Domotica.dll.mdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domus Moticus\Domotica\Domotica\bin\Debug\Domotica.dll.mdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\bin\Debug\Domotica.dll
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\bin\Debug\Domotica.pdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\bin\Debug\Domotica.Domotica.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\bin\Debug\Domotica.Domotica-Signed.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\Domotica.csprojResolveAssemblyReference.cache
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\Domotica.dll
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\Domotica.pdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\android\bin\Domotica.Domotica.apk
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\res\layout\main.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\res\values\strings.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\res\drawable\icon.png
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\res\menu\menu.xml
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\R.cs.flag
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\uploadflags.txt
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\obj\Debug\Domotica.dll.mdb
+C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domotica\Domotica\Domotica\bin\Debug\Domotica.dll.mdb
