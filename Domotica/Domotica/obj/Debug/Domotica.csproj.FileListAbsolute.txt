@@ -26,3 +26,5 @@ Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\res\drawable\ico
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\res\menu\menu.xml
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\R.cs.flag
 Y:\CloudStation\Development\Xamarin\Domotica\Domotica\obj\Debug\uploadflags.txt
+C:\Users\Gebruiker\Desktop\git troep\Domotica\Domotica\obj\Debug\Domotica.csprojResolveAssemblyReference.cache
+C:\Users\Gebruiker\Desktop\git troep\Domotica\Domotica\obj\Debug\Domotica.dll

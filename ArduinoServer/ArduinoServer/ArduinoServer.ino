@@ -45,6 +45,8 @@ int sw1 = 0;
 int sw2 = 0;
 int sw3 = 0;
 
+RCSwitch mySwitch = RCSwitch();
+
 void setup()
 {
 	//Init I/O-pins
@@ -63,7 +65,8 @@ void setup()
 	digitalWrite(ledPin, LOW);
 	digitalWrite(infoPin, LOW);
 
-	actionTransmitter.enableTransmit(RFPin);
+	mySwitch.enableTransmit(RFPin);
+
 
 	Serial.begin(9600);
 
@@ -100,10 +103,12 @@ void setup()
 
 void loop()
 {
+	Serial.println("hij zit in de loop");
 	// Listen for incomming connection (app)
 	EthernetClient ethernetClient = server.available();
 	if (!ethernetClient) {
 		blink(ledPin);
+		Serial.println("ethernetclient is negatief");
 		return; // wait for connection and blink LED
 	}
 
@@ -158,23 +163,42 @@ void executeCommand(char cmd)
 		break;
 	default:
 		digitalWrite(infoPin, LOW);
-    case '1' :  // Toggle switch 1
-        sw1 = sw1 +1;
-		if( sw1 % 2 == 1)
-			{mySwitch.send(10844527, 24);}
-		else {mySwitch.send(10844526, 24);}
-        break;
-	case '2' :  // Toggle switch 2
-        sw2 = sw2 +1;
-		if( sw2 % 2 == 1)
-			{mySwitch.send(10844525, 24);}
-		else {mySwitch.send(10844524, 24);}
+	case '1':  // Toggle switch 1
+		sw1 = sw1 + 1;
+		Serial.println("1 is binnengekomen en zet switch 1 aan of uit");
+		if (sw1 % 2 == 1) {
+			mySwitch.send(10844527, 24);
+		}
+		else {
+			mySwitch.send(10844526, 24);
+		}
 		break;
-	case '3' :  // Toggle switch 3
-        sw2 = sw2 +1;
-		if( sw2 % 2 == 1)
-			{mySwitch.send(10844523, 24);}
-		else {mySwitch.send(10844522, 24);}	
+	case '2':  // Toggle switch 2
+		sw2 = sw2 + 1;
+		Serial.println("2 is binnengekomen en zet switch 2 aan of uit");
+		if (sw2 % 2 == 1)
+		{
+			mySwitch.send(10844525, 24);
+		}
+		else {
+			mySwitch.send(10844524, 24);
+		}
+		break;
+	case '3':  // Toggle switch 3
+		sw2 = sw2 + 1;
+		Serial.println("3 is binnengekomen en zet switch 3 aan of uit");
+		if (sw2 % 2 == 1)
+		{
+			mySwitch.send(10844523, 24);
+		}
+		else {
+			mySwitch.send(10844522, 24);
+		}
+		break;
+	case'4':
+		int test = 600;
+		intToCharBuf(test, buf, 4); 
+		server.write(buf, 4);
 		break;
 	}
 }

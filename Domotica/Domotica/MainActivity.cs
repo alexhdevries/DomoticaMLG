@@ -196,6 +196,7 @@ namespace Domotica
                     UpdateConnectionState(3, result);
                 }
             }
+
             return result;
         }
 
