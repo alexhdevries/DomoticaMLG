@@ -1,39 +1,4 @@
-﻿// Xamarin/C# app voor de besturing van een Arduino (Uno with Ethernet Shield) m.b.v. een socket-interface.
-// Arduino server: DomoticaServer.ino
-// De besturing heeft betrekking op het aan- en uitschakelen van een Arduino pin, 
-// waar een led aan kan hangen of, t.b.v. het Domotica project, een RF-zender waarmee een 
-// klik-aan-klik-uit apparaat bestuurd kan worden.
-//
-// De app heeft twee modes die betrekking hebben op de afhandeling van de socket-communicatie: "simple-mode" en "threaded-mode" 
-// Wanneer het statement    //connector = new Connector(this);    wordt uitgecommentarieerd draait de app in "simple-mode",
-// Het opvragen van gegevens van de Arduino (server) wordt dan met een Timer gerealisseerd. (De extra classes Connector.cs, 
-// Receiver.cs en Sender.cs worden dan niet gebruikt.) 
-// Als er een connector wordt aangemaakt draait de app in "threaded mode". De socket-communicatie wordt dan afgehandeld
-// via een Sender- en een Receiver klasse, die worden aangemaakt in de Connector klasse. Deze threaded mode 
-// biedt een generiekere en ook robuustere manier van communicatie, maar is ook moeilijker te begrijpen. 
-// Aanbeveling: start in ieder geval met de simple-mode
-//
-// Werking: De communicatie met de (Arduino) server is gebaseerd op een socket-interface. Het IP- en Port-nummer
-// is instelbaar. Na verbinding kunnen, middels een eenvoudig commando-protocol, opdrachten gegeven worden aan 
-// de server (bijv. pin aan/uit). Indien de server om een response wordt gevraagd (bijv. led-status of een
-// sensorwaarde), wordt deze in een 4-bytes ASCII-buffer ontvangen, en op het scherm geplaatst. Alle commando's naar 
-// de server zijn gecodeerd met 1 char. Bestudeer het protocol in samenhang met de code van de Arduino server.
-// Het default IP- en Port-nummer (zoals dat in het GUI verschijnt) kan aangepast worden in de file "Strings.xml". De
-// ingestelde waarde is gebaseerd op je eigen netwerkomgeving, hier, en in de Arduino-code, is dat een router, die via DHCP
-// in het segment 192.168.1.x vanaf systeemnummer 100 IP-adressen uitgeeft.
-// 
-// Resource files:
-//   Main.axml (voor het grafisch design, in de map Resources->layout)
-//   Strings.xml (voor alle statische strings in het interface, in de map Resources->values)
-// 
-// De software is verder gedocumenteerd in de code. Tijdens de colleges wordt er nadere uitleg over gegeven.
-// 
-// Versie 1.0, 12/12/2015
-// D. Bruin
-// S. Oosterhaven
-// W. Dalof (voor de basis van het Threaded interface)
-//
-using System;
+﻿using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
@@ -60,6 +25,9 @@ namespace Domotica
         // Controls on GUI
         Button buttonConnect;
         Button buttonChangePinState;
+        Button button1;
+        Button button2;
+        Button button3;
         TextView textViewServerConnect, textViewTimerStateValue;
         public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
         EditText editTextIPAddress, editTextIPPort;
@@ -80,6 +48,9 @@ namespace Domotica
             // find and set the controls, so it can be used in the code
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
             buttonChangePinState = FindViewById<Button>(Resource.Id.buttonChangePinState);
+            button1 = FindViewById<Button>(Resource.Id.button1);
+            button2 = FindViewById<Button>(Resource.Id.button2);
+            button3 = FindViewById<Button>(Resource.Id.button3);
             textViewTimerStateValue = FindViewById<TextView>(Resource.Id.textViewTimerStateValue);
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             textViewChangePinStateValue = FindViewById<TextView>(Resource.Id.textViewChangePinStateValue);
@@ -161,6 +132,48 @@ namespace Domotica
                     }
                 };
             }
+            if (button1 != null)
+            {
+                button1.Click += (sender, e) =>
+                {
+                    if (connector == null) // -> simple sockets
+                    {
+                        socket.Send(Encoding.ASCII.GetBytes("1"));                 // Send toggle-command to the Arduino
+                    }
+                    else // -> threaded sockets
+                    {
+                        if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
+                    }
+                };
+            }
+            if (button2 != null)
+            {
+                button2.Click += (sender, e) =>
+                {
+                    if (connector == null) // -> simple sockets
+                    {
+                        socket.Send(Encoding.ASCII.GetBytes("2"));                 // Send toggle-command to the Arduino
+                    }
+                    else // -> threaded sockets
+                    {
+                        if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
+                    }
+                };
+            }
+            if (button3 != null)
+            {
+                button3.Click += (sender, e) =>
+                {
+                    if (connector == null) // -> simple sockets
+                    {
+                        socket.Send(Encoding.ASCII.GetBytes("3"));                 // Send toggle-command to the Arduino
+                    }
+                    else // -> threaded sockets
+                    {
+                        if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
+                    }
+                };
+            }
         }
 
 
@@ -208,7 +221,7 @@ namespace Domotica
             bool butConEnabled = true;      // default state
             Color color = Color.Red;        // default color
             // pinButton
-            bool butPinEnabled = false;     // default state 
+            bool butPinEnabled = false;     // default state
 
             //Set "Connect" button label according to connection state.
             if (state == 1)
@@ -234,10 +247,13 @@ namespace Domotica
                     buttonConnect.Enabled = butConEnabled;
                 }
                 buttonChangePinState.Enabled = butPinEnabled;
+                button1.Enabled = butPinEnabled;
+                button2.Enabled = butPinEnabled;
+                button3.Enabled = butPinEnabled;
             });
         }
 
-        //Update GUI based on Arduino response
+        //Update GUI ased on Arduino response
         public void UpdateGUI(string result, TextView textview)
         {
             RunOnUiThread(() =>
