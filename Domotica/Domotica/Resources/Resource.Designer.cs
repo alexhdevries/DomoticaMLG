@@ -63,8 +63,13 @@ namespace Domotica
 		public partial class Id
 		{
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f07001e
 			public const int abort = 2131165214;
+=======
+			// aapt resource value: 0x7f06001e
+			public const int abort = 2131099678;
+>>>>>>> 3d7620f96ca98ae868264c588885d9555f5dfa6b
 			
 			// aapt resource value: 0x7f070009
 			public const int buttonConnect = 2131165193;
@@ -84,8 +89,13 @@ namespace Domotica
 			// aapt resource value: 0x7f070016
 			public const int buttonToggle2 = 2131165206;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f07001c
 			public const int buttonToggle3 = 2131165212;
+=======
+			// aapt resource value: 0x7f06001c
+			public const int buttonToggle3 = 2131099676;
+>>>>>>> 3d7620f96ca98ae868264c588885d9555f5dfa6b
 			
 			// aapt resource value: 0x7f070007
 			public const int editTextIPAddress = 2131165191;
@@ -99,20 +109,39 @@ namespace Domotica
 			// aapt resource value: 0x7f070015
 			public const int editTextThreshold2 = 2131165205;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f07001a
 			public const int editTextThreshold3 = 2131165210;
 			
 			// aapt resource value: 0x7f07001b
 			public const int editTextThreshold4 = 2131165211;
+=======
+			// aapt resource value: 0x7f06001a
+			public const int editTextThreshold3 = 2131099674;
+			
+			// aapt resource value: 0x7f06001b
+			public const int editTextThreshold4 = 2131099675;
+			
+			// aapt resource value: 0x7f06001d
+			public const int exit = 2131099677;
+>>>>>>> 3d7620f96ca98ae868264c588885d9555f5dfa6b
 			
 			// aapt resource value: 0x7f07001d
 			public const int exit = 2131165213;
 			
+<<<<<<< HEAD
 			// aapt resource value: 0x7f07000a
 			public const int gridLayout1 = 2131165194;
 			
 			// aapt resource value: 0x7f070019
 			public const int linearLayout1 = 2131165209;
+=======
+			// aapt resource value: 0x7f060019
+			public const int linearLayout1 = 2131099673;
+			
+			// aapt resource value: 0x7f060000
+			public const int relativeLayout1 = 2131099648;
+>>>>>>> 3d7620f96ca98ae868264c588885d9555f5dfa6b
 			
 			// aapt resource value: 0x7f070000
 			public const int relativeLayout1 = 2131165184;
