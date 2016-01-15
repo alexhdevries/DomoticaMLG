@@ -348,9 +348,8 @@ namespace Domotica
         {
             RunOnUiThread(() =>
             {
-                if (textview.CurrentTextColor == Color.Green) textview.SetTextColor(Color.Red);
-                else if (textview.CurrentTextColor == Color.Red) textview.SetTextColor(Color.Green);
-                else textview.SetTextColor(Color.White);
+                if (textview.CurrentTextColor != Color.Red) textview.SetTextColor(Color.Red);
+                else if (textview.CurrentTextColor != Color.Green) textview.SetTextColor(Color.Green);
             });
         }
 
