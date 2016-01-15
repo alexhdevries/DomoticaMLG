@@ -14,21 +14,23 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int abort=0x7f06001c;
+        public static final int abort=0x7f06001e;
         public static final int buttonConnect=0x7f060009;
         public static final int buttonOnOff1=0x7f06000f;
         public static final int buttonOnOff2=0x7f060013;
         public static final int buttonOnOff3=0x7f060017;
         public static final int buttonToggle1=0x7f060012;
         public static final int buttonToggle2=0x7f060016;
-        public static final int buttonToggle3=0x7f06001a;
+        public static final int buttonToggle3=0x7f06001c;
         public static final int editTextIPAddress=0x7f060007;
         public static final int editTextIPPort=0x7f060008;
         public static final int editTextThreshold1=0x7f060011;
         public static final int editTextThreshold2=0x7f060015;
-        public static final int editTextThreshold3=0x7f060019;
-        public static final int exit=0x7f06001b;
+        public static final int editTextThreshold3=0x7f06001a;
+        public static final int editTextThreshold4=0x7f06001b;
+        public static final int exit=0x7f06001d;
         public static final int gridLayout1=0x7f06000a;
+        public static final int linearLayout1=0x7f060019;
         public static final int relativeLayout1=0x7f060000;
         public static final int textViewIPAddress=0x7f060005;
         public static final int textViewIPPort=0x7f060006;

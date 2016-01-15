@@ -60,8 +60,8 @@ namespace Domotica
 		public partial class Id
 		{
 			
-			// aapt resource value: 0x7f06001c
-			public const int abort = 2131099676;
+			// aapt resource value: 0x7f06001e
+			public const int abort = 2131099678;
 			
 			// aapt resource value: 0x7f060009
 			public const int buttonConnect = 2131099657;
@@ -81,8 +81,8 @@ namespace Domotica
 			// aapt resource value: 0x7f060016
 			public const int buttonToggle2 = 2131099670;
 			
-			// aapt resource value: 0x7f06001a
-			public const int buttonToggle3 = 2131099674;
+			// aapt resource value: 0x7f06001c
+			public const int buttonToggle3 = 2131099676;
 			
 			// aapt resource value: 0x7f060007
 			public const int editTextIPAddress = 2131099655;
@@ -96,14 +96,20 @@ namespace Domotica
 			// aapt resource value: 0x7f060015
 			public const int editTextThreshold2 = 2131099669;
 			
-			// aapt resource value: 0x7f060019
-			public const int editTextThreshold3 = 2131099673;
+			// aapt resource value: 0x7f06001a
+			public const int editTextThreshold3 = 2131099674;
 			
 			// aapt resource value: 0x7f06001b
-			public const int exit = 2131099675;
+			public const int editTextThreshold4 = 2131099675;
+			
+			// aapt resource value: 0x7f06001d
+			public const int exit = 2131099677;
 			
 			// aapt resource value: 0x7f06000a
 			public const int gridLayout1 = 2131099658;
+			
+			// aapt resource value: 0x7f060019
+			public const int linearLayout1 = 2131099673;
 			
 			// aapt resource value: 0x7f060000
 			public const int relativeLayout1 = 2131099648;

@@ -61,7 +61,7 @@ namespace Domotica
         Button buttonConnect;
         public Button kakuOne, kakuTwo, kakuThree;
         public TextView valOne, valTwo, valThree;
-        public EditText thresholdOne, thresholdTwo, thresholdThree;
+        public EditText thresholdOne, thresholdTwo, thresholdThree, thresholdFour;
         public Button toggleOne, toggleTwo, toggleThree;
         TextView textViewServerConnect, textViewTimerStateValue;
         //public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
@@ -91,6 +91,7 @@ namespace Domotica
             thresholdOne = FindViewById<EditText>(Resource.Id.editTextThreshold1);
             thresholdTwo = FindViewById<EditText>(Resource.Id.editTextThreshold2);
             thresholdThree = FindViewById<EditText>(Resource.Id.editTextThreshold3);
+            thresholdFour = FindViewById<EditText>(Resource.Id.editTextThreshold4);
             toggleOne = FindViewById<Button>(Resource.Id.buttonToggle1);
             toggleTwo = FindViewById<Button>(Resource.Id.buttonToggle2);
             toggleThree = FindViewById<Button>(Resource.Id.buttonToggle3);
@@ -107,10 +108,8 @@ namespace Domotica
             commandList.Add(new Tuple<string, TextView>("s", kakuThree));
             commandList.Add(new Tuple<string, TextView>("n", toggleOne));
             commandList.Add(new Tuple<string, TextView>("o", toggleTwo));
-            commandList.Add(new Tuple<string, TextView>("p", toggleThree));
             commandList.Add(new Tuple<string, TextView>("a", valOne));
             commandList.Add(new Tuple<string, TextView>("b", valTwo));
-            commandList.Add(new Tuple<string, TextView>("c", valThree));
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
             // connector = new Connector(this);
@@ -133,8 +132,15 @@ namespace Domotica
                 //{
                     if (socket != null) // only if socket exists
                     {
-                        // Send a command to the Arduino server on every tick (loop though list)
-                        UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
+                    // Send a command to the Arduino server on every tick (loop though list)
+                        if (listIndex < 6)
+                        {
+                            UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
+                        }
+                        else if (listIndex > 5)
+                        {
+                            UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
+                    }
                         if (++listIndex >= commandList.Count) listIndex = 0;
                     }
                     else timerSockets.Enabled = false;  // If socket broken -> disable timer
@@ -171,11 +177,11 @@ namespace Domotica
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("t"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("1"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("t");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
                     }
                 };
             }
@@ -185,11 +191,11 @@ namespace Domotica
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("u"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("2"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("u");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
                     }
                 };
             }
@@ -199,11 +205,11 @@ namespace Domotica
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("v"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("3"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("v");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
                     }
                 };
             }
@@ -213,11 +219,11 @@ namespace Domotica
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("w"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("4"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("w");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("4");  // Send toggle-command to the Arduino
                     }
                 };
             }
@@ -227,11 +233,11 @@ namespace Domotica
                 {
                     if (connector == null) // -> simple sockets
                     {
-                        socket.Send(Encoding.ASCII.GetBytes("x"));                 // Send toggle-command to the Arduino
+                        socket.Send(Encoding.ASCII.GetBytes("5"));                 // Send toggle-command to the Arduino
                     }
                     else // -> threaded sockets
                     {
-                        if (connector.CheckStarted()) connector.SendMessage("x");  // Send toggle-command to the Arduino
+                        if (connector.CheckStarted()) connector.SendMessage("5");  // Send toggle-command to the Arduino
                     }
                 };
             }
@@ -239,14 +245,7 @@ namespace Domotica
             {
                 toggleThree.Click += (sender, e) =>
                 {
-                    if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("y"));                 // Send toggle-command to the Arduino
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("y");  // Send toggle-command to the Arduino
-                    }
+                    UpdateGUITime(toggleThree);
                 };
             }
         }
@@ -333,6 +332,24 @@ namespace Domotica
             {
                 if (result == "OFF") textview.SetTextColor(Color.Red);
                 else if (result == " ON") textview.SetTextColor(Color.Green);
+                else textview.SetTextColor(Color.White);
+            });
+        }
+
+        public void UpdateGUIStringOnly(string result, TextView textview)
+        {
+            RunOnUiThread(() =>
+            {
+                textview.Text = result;
+            });
+        }
+
+        public void UpdateGUITime(TextView textview)
+        {
+            RunOnUiThread(() =>
+            {
+                if (textview.CurrentTextColor == Color.Green) textview.SetTextColor(Color.Red);
+                else if (textview.CurrentTextColor == Color.Red) textview.SetTextColor(Color.Green);
                 else textview.SetTextColor(Color.White);
             });
         }
