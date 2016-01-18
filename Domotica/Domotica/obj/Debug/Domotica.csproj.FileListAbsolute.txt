@@ -42,3 +42,21 @@ C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domoticus\Domotica\Domotic
 C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domoticus\Domotica\Domotica\obj\Debug\uploadflags.txt
 C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domoticus\Domotica\Domotica\obj\Debug\Domotica.dll.mdb
 C:\Users\Stefan\Documents\Visual Studio 2015\Projects\Domoticus\Domotica\Domotica\bin\Debug\Domotica.dll.mdb
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\bin\Debug\Domotica.dll
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\bin\Debug\Domotica.pdb
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\bin\Debug\Domotica.Domotica.apk
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\bin\Debug\Domotica.Domotica-Signed.apk
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\Domotica.csprojResolveAssemblyReference.cache
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\drawable\monoandroidsplash.png
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\values\styles.xml
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\Domotica.dll
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\Domotica.pdb
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\android\bin\Domotica.Domotica.apk
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\layout\main.xml
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\values\strings.xml
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\drawable\icon.png
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\res\menu\menu.xml
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\R.cs.flag
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\uploadflags.txt
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\obj\Debug\Domotica.dll.mdb
+C:\Users\alexh_000\Desktop\Git truukjes\Domotica\Domotica\Domotica\bin\Debug\Domotica.dll.mdb

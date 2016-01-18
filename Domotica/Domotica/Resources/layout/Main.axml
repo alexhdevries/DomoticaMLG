@@ -135,7 +135,7 @@
             android:gravity="center" />
         <EditText
             android:inputType="number"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/editTextThreshold1" />
         <Button
@@ -158,7 +158,7 @@
             android:gravity="center" />
         <EditText
             android:inputType="number"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/editTextThreshold2" />
         <Button
@@ -179,11 +179,24 @@
             android:layout_height="match_parent"
             android:id="@+id/textViewValue3"
             android:gravity="center" />
-        <EditText
-            android:inputType="time"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextThreshold3" />
+            android:id="@+id/linearLayout1">
+            <EditText
+                android:inputType="time"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextThreshold3" />
+            <EditText
+                android:inputType="time"
+                android:layout_width="75dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextThreshold4" />
+        </LinearLayout>
         <Button
             android:text="@string/sensor_text3"
             android:layout_width="80dp"
