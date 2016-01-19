@@ -12,42 +12,8 @@ public final class R {
     }
     public static final class drawable {
         public static final int icon=0x7f020000;
-        public static final int monoandroidsplash=0x7f020001;
     }
     public static final class id {
-<<<<<<< HEAD
-        public static final int abort=0x7f07001e;
-        public static final int buttonConnect=0x7f070009;
-        public static final int buttonOnOff1=0x7f07000f;
-        public static final int buttonOnOff2=0x7f070013;
-        public static final int buttonOnOff3=0x7f070017;
-        public static final int buttonToggle1=0x7f070012;
-        public static final int buttonToggle2=0x7f070016;
-        public static final int buttonToggle3=0x7f07001c;
-        public static final int editTextIPAddress=0x7f070007;
-        public static final int editTextIPPort=0x7f070008;
-        public static final int editTextThreshold1=0x7f070011;
-        public static final int editTextThreshold2=0x7f070015;
-        public static final int editTextThreshold3=0x7f07001a;
-        public static final int editTextThreshold4=0x7f07001b;
-        public static final int exit=0x7f07001d;
-        public static final int gridLayout1=0x7f07000a;
-        public static final int linearLayout1=0x7f070019;
-        public static final int relativeLayout1=0x7f070000;
-        public static final int textViewIPAddress=0x7f070005;
-        public static final int textViewIPPort=0x7f070006;
-        public static final int textViewOnOff=0x7f07000b;
-        public static final int textViewServer=0x7f070003;
-        public static final int textViewServerConnect=0x7f070004;
-        public static final int textViewThreshold=0x7f07000d;
-        public static final int textViewTimerState=0x7f070001;
-        public static final int textViewTimerStateValue=0x7f070002;
-        public static final int textViewToggle=0x7f07000e;
-        public static final int textViewValue=0x7f07000c;
-        public static final int textViewValue1=0x7f070010;
-        public static final int textViewValue2=0x7f070014;
-        public static final int textViewValue3=0x7f070018;
-=======
         public static final int abort=0x7f06001e;
         public static final int buttonConnect=0x7f060009;
         public static final int buttonOnOff1=0x7f06000f;
@@ -79,13 +45,12 @@ public final class R {
         public static final int textViewValue1=0x7f060010;
         public static final int textViewValue2=0x7f060014;
         public static final int textViewValue3=0x7f060018;
->>>>>>> 3d7620f96ca98ae868264c588885d9555f5dfa6b
     }
     public static final class layout {
         public static final int main=0x7f030000;
     }
     public static final class menu {
-        public static final int menu=0x7f060000;
+        public static final int menu=0x7f050000;
     }
     public static final class string {
         public static final int abort=0x7f04001d;
@@ -118,8 +83,5 @@ public final class R {
         public static final int toggle_text=0x7f04000d;
         public static final int value_text=0x7f04000b;
         public static final int value_value_text=0x7f040014;
-    }
-    public static final class style {
-        public static final int Mono_Android_Theme_Splash=0x7f050000;
     }
 }

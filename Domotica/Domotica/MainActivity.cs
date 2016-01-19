@@ -58,6 +58,7 @@ namespace Domotica
     {
         // Variables (components/controls)
         // Controls on GUI
+        public int hour, minute, time;
         Button buttonConnect;
         public Button kakuOne, kakuTwo, kakuThree;
         public TextView valOne, valTwo, valThree;
@@ -247,6 +248,23 @@ namespace Domotica
                 {
                     UpdateGUITime(toggleThree);
                 };
+            }
+
+            if (toggleThree.CurrentTextColor != Color.Red)
+            {
+                hour = DateTime.Now.Hour;
+                minute = DateTime.Now.Minute;
+                time = 10;
+                if (Convert.ToInt32(valThree.Text) == Convert.ToInt32(thresholdThree.Text))
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("3"));
+                    valThree.SetTextColor(Color.Green);
+                }
+                if (Convert.ToInt32(valThree.Text) == Convert.ToInt32(thresholdFour.Text))
+                {
+                    socket.Send(Encoding.ASCII.GetBytes("3"));
+                    valThree.SetTextColor(Color.Red);
+                }
             }
         }
 
