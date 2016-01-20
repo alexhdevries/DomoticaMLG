@@ -58,8 +58,9 @@ namespace Domotica
     {
         // Variables (components/controls)
         // Controls on GUI
-        public int hour, minute, time;
-        Button buttonConnect;
+        public int hour, minute;
+		public string time;
+        Button buttonConnect, buttonSwitch;
         public Button kakuOne, kakuTwo, kakuThree;
         public TextView valOne, valTwo, valThree;
         public EditText thresholdOne, thresholdTwo, thresholdThree, thresholdFour;
@@ -83,6 +84,7 @@ namespace Domotica
 
             // find and set the controls, so it can be used in the code
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
+			buttonSwitch = FindViewById<Button> (Resource.Id.buttonSwitch);
             kakuOne = FindViewById<Button>(Resource.Id.buttonOnOff1);
             kakuTwo = FindViewById<Button>(Resource.Id.buttonOnOff2);
             kakuThree = FindViewById<Button>(Resource.Id.buttonOnOff3);
@@ -141,7 +143,7 @@ namespace Domotica
                         else if (listIndex > 5)
                         {
                             UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
-                    }
+                    	}
                         if (++listIndex >= commandList.Count) listIndex = 0;
                     }
                     else timerSockets.Enabled = false;  // If socket broken -> disable timer
@@ -242,6 +244,7 @@ namespace Domotica
                     }
                 };
             }
+
             if (toggleThree != null)
             {
                 toggleThree.Click += (sender, e) =>
@@ -249,18 +252,52 @@ namespace Domotica
                     UpdateGUITime(toggleThree);
                 };
             }
-
+			UpdateGUIStringOnly ("a", valOne);
+			if (toggleOne.CurrentTextColor != Color.Red)
+			{
+				int i = 0;
+				if (Convert.ToInt32(valOne.Text) > Convert.ToInt32(thresholdOne.Text) && i != 1)
+				{
+					socket.Send(Encoding.ASCII.GetBytes("1"));
+					valOne.SetTextColor(Color.Green);
+					i = 1;
+				}
+				if (Convert.ToInt32(valOne.Text) < Convert.ToInt32(thresholdOne.Text) && i != 0)
+				{
+					socket.Send(Encoding.ASCII.GetBytes("1"));
+					valOne.SetTextColor(Color.Red);
+					i = 0;
+				}
+			}
+			UpdateGUIStringOnly ("b", valTwo);
+			if (toggleTwo.CurrentTextColor != Color.Red)
+			{
+				int i = 0;
+				if (Convert.ToInt32(valTwo.Text) > Convert.ToInt32(thresholdTwo.Text) && i != 1)
+				{
+					socket.Send(Encoding.ASCII.GetBytes("2"));
+					valTwo.SetTextColor(Color.Green);
+					i = 1;
+				}
+				if (Convert.ToInt32(valTwo.Text) < Convert.ToInt32(thresholdTwo.Text) && i != 0)
+				{
+					socket.Send(Encoding.ASCII.GetBytes("2"));
+					valTwo.SetTextColor(Color.Red);
+					i = 0;
+				}
+			}
+			hour = DateTime.Now.Hour;
+			minute = DateTime.Now.Minute;
+			time = String.Format ("{0}:{1}", hour, minute);
+			valThree.Text = time;
             if (toggleThree.CurrentTextColor != Color.Red)
             {
-                hour = DateTime.Now.Hour;
-                minute = DateTime.Now.Minute;
-                time = 10;
-                if (Convert.ToInt32(valThree.Text) == Convert.ToInt32(thresholdThree.Text))
+                if (time == thresholdThree.Text)
                 {
                     socket.Send(Encoding.ASCII.GetBytes("3"));
                     valThree.SetTextColor(Color.Green);
                 }
-                if (Convert.ToInt32(valThree.Text) == Convert.ToInt32(thresholdFour.Text))
+                if (time == thresholdFour.Text)
                 {
                     socket.Send(Encoding.ASCII.GetBytes("3"));
                     valThree.SetTextColor(Color.Red);
@@ -273,6 +310,13 @@ namespace Domotica
         //Method should only be called when socket existst
         public string executeCommand(string cmd)
         {
+			buttonConnect.Enabled = false;
+			kakuOne.Enabled = false;
+			kakuTwo.Enabled = false;
+			kakuThree.Enabled = false;
+			toggleOne.Enabled = false;
+			toggleTwo.Enabled = false;
+			toggleThree.Enabled = false;
             byte[] buffer = new byte[4]; // response is always 4 bytes
             int bytesRead = 0;
             string result = "---";
@@ -301,6 +345,13 @@ namespace Domotica
                     UpdateConnectionState(3, result);
                 }
             }
+			buttonConnect.Enabled = true;
+			kakuOne.Enabled = true;
+			kakuTwo.Enabled = true;
+			kakuThree.Enabled = true;
+			toggleOne.Enabled = true;
+			toggleTwo.Enabled = true;
+			toggleThree.Enabled = true;
             return result;
         }
 

@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="Domotica\Domotica.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.Xamarin_Android_API_23" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Domotica\MainActivity.cs">
+    <Files>
+      <File FileName="Domotica\Resources\values\Strings.xml" Line="18" Column="6" />
+      <File FileName="Domotica\MainActivity.cs" Line="90" Column="66" />
+      <File FileName="Domotica\Resources\menu\menu.xml" Line="2" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.Domotica AndroidDesignerPreferredDevice="Nexus 4" />
+</Properties>
