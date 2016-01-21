@@ -256,9 +256,24 @@
             android:id="@+id/buttonToggle3"
             android:textColor="@string/button_pin_state_colour" />
     </GridLayout>
-    <Button
-        android:text="@string/button_switch_state"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:minWidth="25px"
+        android:minHeight="25px"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonSwitch" />
+        android:id="@+id/linearLayout2">
+        <Button
+            android:text="@string/button_switch_state1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSwitch1"
+            android:textColor="@string/button_pin_state_colour" />
+        <Button
+            android:text="@string/button_switch_state2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSwitch2"
+            android:textColor="@string/button_pin_state_colour" />
+    </LinearLayout>
 </LinearLayout>

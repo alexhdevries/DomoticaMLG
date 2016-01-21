@@ -14,12 +14,13 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int abort=0x7f06001f;
+        public static final int abort=0x7f060021;
         public static final int buttonConnect=0x7f060009;
         public static final int buttonOnOff1=0x7f06000f;
         public static final int buttonOnOff2=0x7f060013;
         public static final int buttonOnOff3=0x7f060017;
-        public static final int buttonSwitch=0x7f06001d;
+        public static final int buttonSwitch1=0x7f06001e;
+        public static final int buttonSwitch2=0x7f06001f;
         public static final int buttonToggle1=0x7f060012;
         public static final int buttonToggle2=0x7f060016;
         public static final int buttonToggle3=0x7f06001c;
@@ -29,9 +30,10 @@ public final class R {
         public static final int editTextThreshold2=0x7f060015;
         public static final int editTextThreshold3=0x7f06001a;
         public static final int editTextThreshold4=0x7f06001b;
-        public static final int exit=0x7f06001e;
+        public static final int exit=0x7f060020;
         public static final int gridLayout1=0x7f06000a;
         public static final int linearLayout1=0x7f060019;
+        public static final int linearLayout2=0x7f06001d;
         public static final int relativeLayout1=0x7f060000;
         public static final int textViewIPAddress=0x7f060005;
         public static final int textViewIPPort=0x7f060006;
@@ -54,31 +56,32 @@ public final class R {
         public static final int menu=0x7f050000;
     }
     public static final class string {
-        public static final int abort=0x7f040026;
+        public static final int abort=0x7f040027;
         public static final int application_name=0x7f040000;
         public static final int arduino_server_connect=0x7f040004;
         public static final int arduino_server_text=0x7f040003;
         public static final int button_connect_text=0x7f040009;
-        public static final int button_pin_state_colour=0x7f04001e;
+        public static final int button_pin_state_colour=0x7f04001f;
         public static final int button_pin_state_text1=0x7f040012;
         public static final int button_pin_state_text2=0x7f040013;
         public static final int button_pin_state_text3=0x7f040014;
-        public static final int button_switch_state=0x7f04001c;
-        public static final int change_pin_state_value=0x7f040020;
-        public static final int debug_text=0x7f040023;
-        public static final int debug_value=0x7f040024;
-        public static final int exit=0x7f040025;
+        public static final int button_switch_state1=0x7f04001c;
+        public static final int button_switch_state2=0x7f04001d;
+        public static final int change_pin_state_value=0x7f040021;
+        public static final int debug_text=0x7f040024;
+        public static final int debug_value=0x7f040025;
+        public static final int exit=0x7f040026;
         public static final int ip_address_text=0x7f040005;
         public static final int ip_address_value=0x7f040006;
         public static final int ip_port_text=0x7f040007;
         public static final int ip_port_value=0x7f040008;
         public static final int on_off_text=0x7f04000a;
-        public static final int pin_state_text=0x7f04001f;
-        public static final int sensor_text=0x7f040021;
+        public static final int pin_state_text=0x7f040020;
+        public static final int sensor_text=0x7f040022;
         public static final int sensor_text1=0x7f040015;
         public static final int sensor_text2=0x7f040016;
         public static final int sensor_text3=0x7f040017;
-        public static final int sensor_value=0x7f040022;
+        public static final int sensor_value=0x7f040023;
         public static final int threshold_input1=0x7f040018;
         public static final int threshold_input2=0x7f040019;
         public static final int threshold_input3=0x7f04001a;
@@ -92,6 +95,6 @@ public final class R {
         public static final int value_text1=0x7f04000b;
         public static final int value_text2=0x7f04000c;
         public static final int value_text3=0x7f04000d;
-        public static final int value_value_text=0x7f04001d;
+        public static final int value_value_text=0x7f04001e;
     }
 }

@@ -60,7 +60,7 @@ namespace Domotica
         // Controls on GUI
         public int hour, minute;
 		public string time;
-        Button buttonConnect, buttonSwitch;
+		Button buttonConnect, buttonSwitch1, buttonSwitch2;
         public Button kakuOne, kakuTwo, kakuThree;
         public TextView valOne, valTwo, valThree;
         public EditText thresholdOne, thresholdTwo, thresholdThree, thresholdFour;
@@ -74,6 +74,10 @@ namespace Domotica
         Connector connector = null;                 // Connector (simple-mode or threaded-mode)
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
         int listIndex = 0;
+		int i = 0;
+		int j = 0;
+		int k = 1;
+		int l = 1;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -84,7 +88,8 @@ namespace Domotica
 
             // find and set the controls, so it can be used in the code
             buttonConnect = FindViewById<Button>(Resource.Id.buttonConnect);
-			buttonSwitch = FindViewById<Button> (Resource.Id.buttonSwitch);
+			buttonSwitch1 = FindViewById<Button> (Resource.Id.buttonSwitch1);
+			buttonSwitch2 = FindViewById<Button> (Resource.Id.buttonSwitch2);
             kakuOne = FindViewById<Button>(Resource.Id.buttonOnOff1);
             kakuTwo = FindViewById<Button>(Resource.Id.buttonOnOff2);
             kakuThree = FindViewById<Button>(Resource.Id.buttonOnOff3);
@@ -106,7 +111,8 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-			commandList.Add(new Tuple<string, TextView>("c", buttonSwitch));
+			commandList.Add(new Tuple<string, TextView>("c", buttonSwitch1));
+			commandList.Add(new Tuple<string, TextView>("d", buttonSwitch2));
             commandList.Add(new Tuple<string, TextView>("q", kakuOne));
             commandList.Add(new Tuple<string, TextView>("r", kakuTwo));
             commandList.Add(new Tuple<string, TextView>("s", kakuThree));
@@ -175,10 +181,21 @@ namespace Domotica
             }
 
             //Add the "Change pin state" button handler.
-			if (buttonSwitch != null)
+			if (buttonSwitch1 != null)
 			{
-				buttonSwitch.Click += (sender, e) =>
+				buttonSwitch1.Click += (sender, e) =>
 				{
+					k = (k+1)%2;
+					buttonConnect.Enabled = k;
+					kakuOne.Enabled = k;
+					kakuTwo.Enabled = k;
+					kakuThree.Enabled = k;
+					toggleOne.Enabled = k;
+					toggleTwo.Enabled = k;
+					toggleThree.Enabled = k;
+					toggleOne.CurrentTextColor = Color.Red;
+					toggleTwo.CurrentTextColor = Color.Red;
+					toggleThree.CurrentTextColor = Color.Red;
 					if (connector == null) // -> simple sockets
 					{
 						socket.Send(Encoding.ASCII.GetBytes("c"));                 // Send toggle-command to the Arduino
@@ -186,6 +203,31 @@ namespace Domotica
 					else // -> threaded sockets
 					{
 						if (connector.CheckStarted()) connector.SendMessage("c");  // Send toggle-command to the Arduino
+					}
+				};
+			}
+			if (buttonSwitch2 != null)
+			{
+				buttonSwitch2.Click += (sender, e) =>
+				{
+					l = (l+1)%2;
+					buttonConnect.Enabled = l;
+					kakuOne.Enabled = l;
+					kakuTwo.Enabled = l;
+					kakuThree.Enabled = l;
+					toggleOne.Enabled = l;
+					toggleTwo.Enabled = l;
+					toggleThree.Enabled = l;
+					toggleOne.CurrentTextColor = Color.Red;
+					toggleTwo.CurrentTextColor = Color.Red;
+					toggleThree.CurrentTextColor = Color.Red;
+					if (connector == null) // -> simple sockets
+					{
+						socket.Send(Encoding.ASCII.GetBytes("d"));                 // Send toggle-command to the Arduino
+					}
+					else // -> threaded sockets
+					{
+						if (connector.CheckStarted()) connector.SendMessage("d");  // Send toggle-command to the Arduino
 					}
 				};
 			}
@@ -270,7 +312,6 @@ namespace Domotica
 			UpdateGUIStringOnly ("a", valOne);
 			if (toggleOne.CurrentTextColor != Color.Red)
 			{
-				int i = 0;
 				if (Convert.ToInt32(valOne.Text) > Convert.ToInt32(thresholdOne.Text) && i != 1)
 				{
 					socket.Send(Encoding.ASCII.GetBytes("1"));
@@ -287,18 +328,17 @@ namespace Domotica
 			UpdateGUIStringOnly ("b", valTwo);
 			if (toggleTwo.CurrentTextColor != Color.Red)
 			{
-				int i = 0;
-				if (Convert.ToInt32(valTwo.Text) > Convert.ToInt32(thresholdTwo.Text) && i != 1)
+				if (Convert.ToInt32(valTwo.Text) > Convert.ToInt32(thresholdTwo.Text) && j != 1)
 				{
 					socket.Send(Encoding.ASCII.GetBytes("2"));
 					valTwo.SetTextColor(Color.Green);
-					i = 1;
+					j = 1;
 				}
-				if (Convert.ToInt32(valTwo.Text) < Convert.ToInt32(thresholdTwo.Text) && i != 0)
+				if (Convert.ToInt32(valTwo.Text) < Convert.ToInt32(thresholdTwo.Text) && j != 0)
 				{
 					socket.Send(Encoding.ASCII.GetBytes("2"));
 					valTwo.SetTextColor(Color.Red);
-					i = 0;
+					j = 0;
 				}
 			}
 			hour = DateTime.Now.Hour;
@@ -326,6 +366,8 @@ namespace Domotica
         public string executeCommand(string cmd)
         {
 			buttonConnect.Enabled = false;
+			buttonSwitch1.Enabled = false;
+			buttonSwitch2.Enabled = false;
 			kakuOne.Enabled = false;
 			kakuTwo.Enabled = false;
 			kakuThree.Enabled = false;
@@ -361,6 +403,8 @@ namespace Domotica
                 }
             }
 			buttonConnect.Enabled = true;
+			buttonSwitch1.Enabled = true;
+			buttonSwitch2.Enabled = true;
 			kakuOne.Enabled = true;
 			kakuTwo.Enabled = true;
 			kakuThree.Enabled = true;
@@ -406,6 +450,11 @@ namespace Domotica
                 kakuOne.Enabled = butPinEnabled;
                 kakuTwo.Enabled = butPinEnabled;
                 kakuThree.Enabled = butPinEnabled;
+				buttonSwitch1.Enabled = butPinEnabled;
+				buttonSwitch2.Enabled = butPinEnabled;
+				toggleOne.Enabled = butPinEnabled;
+				toggleTwo.Enabled = butPinEnabled;
+				toggleThree.Enabled = butPinEnabled;
             });
         }
 
