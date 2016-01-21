@@ -111,8 +111,6 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-			commandList.Add(new Tuple<string, TextView>("c", buttonSwitch1));
-			commandList.Add(new Tuple<string, TextView>("d", buttonSwitch2));
             commandList.Add(new Tuple<string, TextView>("q", kakuOne));
             commandList.Add(new Tuple<string, TextView>("r", kakuTwo));
             commandList.Add(new Tuple<string, TextView>("s", kakuThree));
@@ -140,19 +138,23 @@ namespace Domotica
             {
                 //RunOnUiThread(() =>
                 //{
+
+				if (k == 1 && j == 1)
+				{
                     if (socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-                        if (listIndex < 7)
+                        if (listIndex < 6)
                         {
                             UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
                         }
-                        else if (listIndex > 6)
+                        else if (listIndex > 5)
                         {
                             UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
                     	}
                         if (++listIndex >= commandList.Count) listIndex = 0;
                     }
+				}
                     else timerSockets.Enabled = false;  // If socket broken -> disable timer
                 //});
             };
@@ -186,16 +188,38 @@ namespace Domotica
 				buttonSwitch1.Click += (sender, e) =>
 				{
 					k = (k+1)%2;
-					buttonConnect.Enabled = k;
-					kakuOne.Enabled = k;
-					kakuTwo.Enabled = k;
-					kakuThree.Enabled = k;
-					toggleOne.Enabled = k;
-					toggleTwo.Enabled = k;
-					toggleThree.Enabled = k;
-					toggleOne.CurrentTextColor = Color.Red;
-					toggleTwo.CurrentTextColor = Color.Red;
-					toggleThree.CurrentTextColor = Color.Red;
+					if (k == 1)
+					{
+						buttonConnect.Enabled = true;
+						kakuOne.Enabled = true;
+						kakuTwo.Enabled = true;
+						kakuThree.Enabled = true;
+						toggleOne.Enabled = true;
+						toggleTwo.Enabled = true;
+						toggleThree.Enabled = true;
+					}
+					if (k == 0)
+					{
+						buttonConnect.Enabled = false;
+						kakuOne.Enabled = false;
+						kakuTwo.Enabled = false;
+						kakuThree.Enabled = false;
+						toggleOne.Enabled = false;
+						toggleTwo.Enabled = false;
+						toggleThree.Enabled = false;
+					}
+					if (toggleOne.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("1"));
+					}
+					if (toggleTwo.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("2"));
+					}
+					if (toggleThree.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("3"));
+					}
 					if (connector == null) // -> simple sockets
 					{
 						socket.Send(Encoding.ASCII.GetBytes("c"));                 // Send toggle-command to the Arduino
@@ -211,16 +235,38 @@ namespace Domotica
 				buttonSwitch2.Click += (sender, e) =>
 				{
 					l = (l+1)%2;
-					buttonConnect.Enabled = l;
-					kakuOne.Enabled = l;
-					kakuTwo.Enabled = l;
-					kakuThree.Enabled = l;
-					toggleOne.Enabled = l;
-					toggleTwo.Enabled = l;
-					toggleThree.Enabled = l;
-					toggleOne.CurrentTextColor = Color.Red;
-					toggleTwo.CurrentTextColor = Color.Red;
-					toggleThree.CurrentTextColor = Color.Red;
+					if (l == 1)
+					{
+						buttonConnect.Enabled = true;
+						kakuOne.Enabled = true;
+						kakuTwo.Enabled = true;
+						kakuThree.Enabled = true;
+						toggleOne.Enabled = true;
+						toggleTwo.Enabled = true;
+						toggleThree.Enabled = true;
+					}
+					if (l == 0)
+					{
+						buttonConnect.Enabled = false;
+						kakuOne.Enabled = false;
+						kakuTwo.Enabled = false;
+						kakuThree.Enabled = false;
+						toggleOne.Enabled = false;
+						toggleTwo.Enabled = false;
+						toggleThree.Enabled = false;
+					}
+					if (toggleOne.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("1"));
+					}
+					if (toggleTwo.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("2"));
+					}
+					if (toggleThree.CurrentTextColor == Color.Green)
+					{
+						socket.Send(Encoding.ASCII.GetBytes("3"));
+					}
 					if (connector == null) // -> simple sockets
 					{
 						socket.Send(Encoding.ASCII.GetBytes("d"));                 // Send toggle-command to the Arduino
