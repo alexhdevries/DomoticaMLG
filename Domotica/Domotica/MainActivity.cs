@@ -106,6 +106,7 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
+			commandList.Add(new Tuple<string, TextView>("c", buttonSwitch));
             commandList.Add(new Tuple<string, TextView>("q", kakuOne));
             commandList.Add(new Tuple<string, TextView>("r", kakuTwo));
             commandList.Add(new Tuple<string, TextView>("s", kakuThree));
@@ -136,11 +137,11 @@ namespace Domotica
                     if (socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-                        if (listIndex < 6)
+                        if (listIndex < 7)
                         {
                             UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
                         }
-                        else if (listIndex > 5)
+                        else if (listIndex > 6)
                         {
                             UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
                     	}
@@ -174,6 +175,20 @@ namespace Domotica
             }
 
             //Add the "Change pin state" button handler.
+			if (buttonSwitch != null)
+			{
+				buttonSwitch.Click += (sender, e) =>
+				{
+					if (connector == null) // -> simple sockets
+					{
+						socket.Send(Encoding.ASCII.GetBytes("c"));                 // Send toggle-command to the Arduino
+					}
+					else // -> threaded sockets
+					{
+						if (connector.CheckStarted()) connector.SendMessage("c");  // Send toggle-command to the Arduino
+					}
+				};
+			}
             if (kakuOne != null)
             {
                 kakuOne.Click += (sender, e) =>
