@@ -76,8 +76,7 @@ namespace Domotica
         int listIndex = 0;
 		int i = 0;
 		int j = 0;
-		int k = 1;
-		int l = 1;
+		int k = 0;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -111,11 +110,6 @@ namespace Domotica
             UpdateConnectionState(4, "Disconnected");
 
             // Init commandlist, scheduled by socket timer
-            commandList.Add(new Tuple<string, TextView>("q", kakuOne));
-            commandList.Add(new Tuple<string, TextView>("r", kakuTwo));
-            commandList.Add(new Tuple<string, TextView>("s", kakuThree));
-            commandList.Add(new Tuple<string, TextView>("n", toggleOne));
-            commandList.Add(new Tuple<string, TextView>("o", toggleTwo));
             commandList.Add(new Tuple<string, TextView>("a", valOne));
             commandList.Add(new Tuple<string, TextView>("b", valTwo));
 
@@ -139,19 +133,12 @@ namespace Domotica
                 //RunOnUiThread(() =>
                 //{
 
-				if (k == 1 && j == 1)
+				if (k == 1)
 				{
                     if (socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-                        if (listIndex < 6)
-                        {
-                            UpdateGUI(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);  //e.g. UpdateGUI(executeCommand("s"), textViewChangePinStateValue);
-                        }
-                        else if (listIndex > 5)
-                        {
-                            UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
-                    	}
+                        UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
                         if (++listIndex >= commandList.Count) listIndex = 0;
                     }
 				}
@@ -187,27 +174,16 @@ namespace Domotica
 			{
 				buttonSwitch1.Click += (sender, e) =>
 				{
-					k = (k+1)%2;
-					if (k == 1)
-					{
-						buttonConnect.Enabled = true;
-						kakuOne.Enabled = true;
-						kakuTwo.Enabled = true;
-						kakuThree.Enabled = true;
-						toggleOne.Enabled = true;
-						toggleTwo.Enabled = true;
-						toggleThree.Enabled = true;
-					}
-					if (k == 0)
-					{
-						buttonConnect.Enabled = false;
-						kakuOne.Enabled = false;
-						kakuTwo.Enabled = false;
-						kakuThree.Enabled = false;
-						toggleOne.Enabled = false;
-						toggleTwo.Enabled = false;
-						toggleThree.Enabled = false;
-					}
+					k = 1;
+					buttonConnect.Enabled = false;
+					buttonSwitch1.Enabled = false;
+					buttonSwitch2.Enabled = false;
+					kakuOne.Enabled = false;
+					kakuTwo.Enabled = false;
+					kakuThree.Enabled = false;
+					toggleOne.Enabled = false;
+					toggleTwo.Enabled = false;
+					toggleThree.Enabled = false;
 					if (toggleOne.CurrentTextColor == Color.Green)
 					{
 						socket.Send(Encoding.ASCII.GetBytes("1"));
@@ -234,27 +210,16 @@ namespace Domotica
 			{
 				buttonSwitch2.Click += (sender, e) =>
 				{
-					l = (l+1)%2;
-					if (l == 1)
-					{
-						buttonConnect.Enabled = true;
-						kakuOne.Enabled = true;
-						kakuTwo.Enabled = true;
-						kakuThree.Enabled = true;
-						toggleOne.Enabled = true;
-						toggleTwo.Enabled = true;
-						toggleThree.Enabled = true;
-					}
-					if (l == 0)
-					{
-						buttonConnect.Enabled = false;
-						kakuOne.Enabled = false;
-						kakuTwo.Enabled = false;
-						kakuThree.Enabled = false;
-						toggleOne.Enabled = false;
-						toggleTwo.Enabled = false;
-						toggleThree.Enabled = false;
-					}
+					k = 1;
+					buttonConnect.Enabled = false;
+					buttonSwitch1.Enabled = false;
+					buttonSwitch2.Enabled = false;
+					kakuOne.Enabled = false;
+					kakuTwo.Enabled = false;
+					kakuThree.Enabled = false;
+					toggleOne.Enabled = false;
+					toggleTwo.Enabled = false;
+					toggleThree.Enabled = false;
 					if (toggleOne.CurrentTextColor == Color.Green)
 					{
 						socket.Send(Encoding.ASCII.GetBytes("1"));
@@ -284,7 +249,8 @@ namespace Domotica
                     if (connector == null) // -> simple sockets
                     {
                         socket.Send(Encoding.ASCII.GetBytes("1"));                 // Send toggle-command to the Arduino
-                    }
+						UpdateGUITime(kakuOne);
+					}
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
@@ -298,7 +264,8 @@ namespace Domotica
                     if (connector == null) // -> simple sockets
                     {
                         socket.Send(Encoding.ASCII.GetBytes("2"));                 // Send toggle-command to the Arduino
-                    }
+						UpdateGUITime(kakuTwo);
+					}
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
@@ -312,7 +279,8 @@ namespace Domotica
                     if (connector == null) // -> simple sockets
                     {
                         socket.Send(Encoding.ASCII.GetBytes("3"));                 // Send toggle-command to the Arduino
-                    }
+						UpdateGUITime(kakuThree);
+					}
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
@@ -324,13 +292,9 @@ namespace Domotica
                 toggleOne.Click += (sender, e) =>
                 {
                     if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("4"));                 // Send toggle-command to the Arduino
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("4");  // Send toggle-command to the Arduino
-                    }
+					{
+						UpdateGUITime(toggleOne);
+					}
                 };
             }
             if (toggleTwo != null)
@@ -338,13 +302,9 @@ namespace Domotica
                 toggleTwo.Click += (sender, e) =>
                 {
                     if (connector == null) // -> simple sockets
-                    {
-                        socket.Send(Encoding.ASCII.GetBytes("5"));                 // Send toggle-command to the Arduino
-                    }
-                    else // -> threaded sockets
-                    {
-                        if (connector.CheckStarted()) connector.SendMessage("5");  // Send toggle-command to the Arduino
-                    }
+					{
+						UpdateGUITime(toggleTwo);
+					}
                 };
             }
 
