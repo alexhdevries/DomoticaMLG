@@ -58,8 +58,6 @@ namespace Domotica
     {
         // Variables (components/controls)
         // Controls on GUI
-        public int hour, minute;
-		public string time;
 		Button buttonConnect, buttonSwitch1, buttonSwitch2;
         public Button kakuOne, kakuTwo, kakuThree;
         public TextView valOne, valTwo, valThree;
@@ -77,6 +75,7 @@ namespace Domotica
 		int i = 0;
 		int j = 0;
 		int k = 0;
+		int l = 0;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -106,6 +105,14 @@ namespace Domotica
             textViewServerConnect = FindViewById<TextView>(Resource.Id.textViewServerConnect);
             editTextIPAddress = FindViewById<EditText>(Resource.Id.editTextIPAddress);
             editTextIPPort = FindViewById<EditText>(Resource.Id.editTextIPPort);
+			kakuOne.SetTextColor (Color.Red);
+			kakuTwo.SetTextColor (Color.Red);
+			kakuThree.SetTextColor (Color.Red);
+			toggleOne.SetTextColor (Color.Red);
+			toggleTwo.SetTextColor (Color.Red);
+			toggleThree.SetTextColor (Color.Red);
+			buttonSwitch1.SetTextColor (Color.Red);
+			buttonSwitch2.SetTextColor (Color.Red);
 
             UpdateConnectionState(4, "Disconnected");
 
@@ -114,7 +121,7 @@ namespace Domotica
             commandList.Add(new Tuple<string, TextView>("b", valTwo));
 
             // activation of connector -> threaded sockets otherwise -> simple sockets 
-            // connector = new Connector(this);
+            connector = new Connector(this);
 
             this.Title = (connector == null) ? this.Title + " (simple sockets)" : this.Title + " (thread sockets)";
 
@@ -122,31 +129,33 @@ namespace Domotica
             timerClock = new System.Timers.Timer() { Interval = 2000, Enabled = true }; // Interval >= 1000
             timerClock.Elapsed += (obj, args) =>
             {
-                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); }); 
+                RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); });
+				RunOnUiThread(() => { valThree.Text = DateTime.Now.ToString("HH:mm"); });
             };
 
             // timer object, check Arduino state
             // Only one command can be serviced in an timer tick, schedule from list
-            timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = false }; // Interval >= 750
+            timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = true }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
-            {
-                //RunOnUiThread(() =>
-                //{
-
-				if (k == 1)
-				{
-                    if (socket != null) // only if socket exists
+            { RunOnUiThread(
+				() =>
+                {
+					if (connector.socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-                        UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
-                        if (++listIndex >= commandList.Count) listIndex = 0;
+						UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
+						UpdateValue();
+						if (++listIndex >= commandList.Count) listIndex = 0;
+						l++;
+						if (l > 2)
+						{
+							l = 0;
+						}
                     }
-				}
-                    else timerSockets.Enabled = false;  // If socket broken -> disable timer
-                //});
+                });
             };
 
-            //Add the "Connect" button handler.
+			 //Add the "Connect" button handler.
             if (buttonConnect != null)  // if button exists
             {
                 buttonConnect.Click += (sender, e) =>
@@ -174,27 +183,17 @@ namespace Domotica
 			{
 				buttonSwitch1.Click += (sender, e) =>
 				{
-					k = 1;
-					buttonConnect.Enabled = false;
-					buttonSwitch1.Enabled = false;
-					buttonSwitch2.Enabled = false;
-					kakuOne.Enabled = false;
-					kakuTwo.Enabled = false;
-					kakuThree.Enabled = false;
-					toggleOne.Enabled = false;
-					toggleTwo.Enabled = false;
-					toggleThree.Enabled = false;
 					if (toggleOne.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("1"));
+						if (connector.CheckStarted()) connector.SendMessage("1");
 					}
 					if (toggleTwo.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("2"));
+						if (connector.CheckStarted()) connector.SendMessage("2");
 					}
 					if (toggleThree.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("3"));
+						if (connector.CheckStarted()) connector.SendMessage("3");
 					}
 					if (connector == null) // -> simple sockets
 					{
@@ -210,27 +209,17 @@ namespace Domotica
 			{
 				buttonSwitch2.Click += (sender, e) =>
 				{
-					k = 1;
-					buttonConnect.Enabled = false;
-					buttonSwitch1.Enabled = false;
-					buttonSwitch2.Enabled = false;
-					kakuOne.Enabled = false;
-					kakuTwo.Enabled = false;
-					kakuThree.Enabled = false;
-					toggleOne.Enabled = false;
-					toggleTwo.Enabled = false;
-					toggleThree.Enabled = false;
 					if (toggleOne.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("1"));
+						if (connector.CheckStarted()) connector.SendMessage("1");
 					}
 					if (toggleTwo.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("2"));
+						if (connector.CheckStarted()) connector.SendMessage("2");
 					}
 					if (toggleThree.CurrentTextColor == Color.Green)
 					{
-						socket.Send(Encoding.ASCII.GetBytes("3"));
+						if (connector.CheckStarted()) connector.SendMessage("3");
 					}
 					if (connector == null) // -> simple sockets
 					{
@@ -254,6 +243,7 @@ namespace Domotica
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("1");  // Send toggle-command to the Arduino
+						UpdateGUITime(kakuOne);
                     }
                 };
             }
@@ -269,6 +259,7 @@ namespace Domotica
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("2");  // Send toggle-command to the Arduino
+						UpdateGUITime(kakuTwo);
                     }
                 };
             }
@@ -284,6 +275,7 @@ namespace Domotica
                     else // -> threaded sockets
                     {
                         if (connector.CheckStarted()) connector.SendMessage("3");  // Send toggle-command to the Arduino
+						UpdateGUITime(kakuThree);
                     }
                 };
             }
@@ -291,20 +283,14 @@ namespace Domotica
             {
                 toggleOne.Click += (sender, e) =>
                 {
-                    if (connector == null) // -> simple sockets
-					{
-						UpdateGUITime(toggleOne);
-					}
+					UpdateGUITime(toggleOne);
                 };
             }
             if (toggleTwo != null)
             {
                 toggleTwo.Click += (sender, e) =>
                 {
-                    if (connector == null) // -> simple sockets
-					{
-						UpdateGUITime(toggleTwo);
-					}
+					UpdateGUITime(toggleTwo);
                 };
             }
 
@@ -315,57 +301,85 @@ namespace Domotica
                     UpdateGUITime(toggleThree);
                 };
             }
-			UpdateGUIStringOnly ("a", valOne);
-			if (toggleOne.CurrentTextColor != Color.Red)
-			{
-				if (Convert.ToInt32(valOne.Text) > Convert.ToInt32(thresholdOne.Text) && i != 1)
-				{
-					socket.Send(Encoding.ASCII.GetBytes("1"));
-					valOne.SetTextColor(Color.Green);
-					i = 1;
-				}
-				if (Convert.ToInt32(valOne.Text) < Convert.ToInt32(thresholdOne.Text) && i != 0)
-				{
-					socket.Send(Encoding.ASCII.GetBytes("1"));
-					valOne.SetTextColor(Color.Red);
-					i = 0;
-				}
-			}
-			UpdateGUIStringOnly ("b", valTwo);
-			if (toggleTwo.CurrentTextColor != Color.Red)
-			{
-				if (Convert.ToInt32(valTwo.Text) > Convert.ToInt32(thresholdTwo.Text) && j != 1)
-				{
-					socket.Send(Encoding.ASCII.GetBytes("2"));
-					valTwo.SetTextColor(Color.Green);
-					j = 1;
-				}
-				if (Convert.ToInt32(valTwo.Text) < Convert.ToInt32(thresholdTwo.Text) && j != 0)
-				{
-					socket.Send(Encoding.ASCII.GetBytes("2"));
-					valTwo.SetTextColor(Color.Red);
-					j = 0;
-				}
-			}
-			hour = DateTime.Now.Hour;
-			minute = DateTime.Now.Minute;
-			time = String.Format ("{0}:{1}", hour, minute);
-			valThree.Text = time;
-            if (toggleThree.CurrentTextColor != Color.Red)
-            {
-                if (time == thresholdThree.Text)
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("3"));
-                    valThree.SetTextColor(Color.Green);
-                }
-                if (time == thresholdFour.Text)
-                {
-                    socket.Send(Encoding.ASCII.GetBytes("3"));
-                    valThree.SetTextColor(Color.Red);
-                }
-            }
-        }
 
+
+		}
+
+		public void UpdateValue()
+		{
+			if (l == 0)
+			{
+				if (toggleOne.CurrentTextColor != Color.Red)
+				{
+					int value = -1;
+					int max = -1;
+
+					bool successParse = Int32.TryParse (valOne.Text, out value) && Int32.TryParse(thresholdOne.Text, out max);
+
+					if (!successParse) {
+						return;
+					}
+
+					if (value > max) {
+						if (connector.CheckStarted ())
+							connector.SendMessage ("1");
+						valOne.SetTextColor (Color.Green);
+						i = 1;
+					} else {
+						if (connector.CheckStarted ())
+							connector.SendMessage ("1");
+						valOne.SetTextColor (Color.Red);
+						i = 0;
+					}
+				}
+			}
+			if (l == 1)
+			{
+				if (toggleTwo.CurrentTextColor != Color.Red)
+				{
+					int value = -1;
+					int max = -1;
+
+					bool successParse = Int32.TryParse (valTwo.Text, out value) && Int32.TryParse(thresholdTwo.Text, out max);
+
+					if (!successParse) {
+						return;
+					}
+
+					if (value > max) {
+						if (connector.CheckStarted ())
+							connector.SendMessage ("2");
+						valTwo.SetTextColor (Color.Green);
+						i = 1;
+					} else {
+						if (connector.CheckStarted ())
+							connector.SendMessage ("2");
+						valTwo.SetTextColor (Color.Red);
+						i = 0;
+					}
+				}
+			}
+			if (l == 2)
+			{
+				if (toggleThree.CurrentTextColor != Color.Red)
+				{
+					if (valThree.Text == thresholdThree.Text && k == 1)
+					{
+						k = 0;
+						if (connector.CheckStarted ())
+							connector.SendMessage ("3");
+						valThree.SetTextColor (Color.Green);
+					}
+					if (valThree.Text == thresholdFour.Text && k == 0)
+					{
+						k = 1;
+						if (connector.CheckStarted ())
+							connector.SendMessage ("3");
+						valThree.SetTextColor (Color.Red);
+					}
+				}
+			}
+		}
 
         //Send command to server and wait for response (blocking)
         //Method should only be called when socket existst
@@ -463,7 +477,7 @@ namespace Domotica
 				toggleThree.Enabled = butPinEnabled;
             });
         }
-
+		
         //Update GUI based on Arduino response
         public void UpdateGUI(string result, TextView textview)
         {
@@ -507,7 +521,8 @@ namespace Domotica
                         if (socket.Connected)
                         {
                             UpdateConnectionState(2, "Connected");
-                            timerSockets.Enabled = true;                //Activate timer for communication with Arduino     
+                            timerSockets.Enabled = true;                //Activate timer for communication with Arduino
+							valTwo.SetTextColor(Color.Purple);
                         }
                     } catch (Exception exception) {
                         timerSockets.Enabled = false;

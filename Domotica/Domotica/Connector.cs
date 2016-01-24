@@ -28,7 +28,7 @@ namespace Domotica
 		private  string ipAddress;
 		private  string port;
 		private  string error;
-		private  Socket socket;
+		public  Socket socket;
 		private Receiver _receiver;
 		private Sender _sender;
 
@@ -99,9 +99,7 @@ namespace Domotica
 					_sender.StartSender ();
 
 					//Check if connection is active. 
-					while ((Thread.VolatileRead (ref _threadStarted) == 1) && socket.Connected) {
-						//Ask for pin status (from Arduino) update every second.
-						socket.Send (Encoding.ASCII.GetBytes ("s"));  // protocol: s: get status information
+					while ((Thread.VolatileRead (ref _threadStarted) == 1) && socket.Connected) {  // protocol: s: get status information
 						Thread.Sleep (1000);
 					}
 				}
