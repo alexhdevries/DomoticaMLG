@@ -71,7 +71,7 @@ namespace Domotica
         Socket socket = null;                       // Socket   
         Connector connector = null;                 // Connector (simple-mode or threaded-mode)
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
-        int listIndex = 0;
+        public int listIndex = 0;
 		int i = 0;
 		int j = 0;
 		int k = 0;
@@ -143,9 +143,7 @@ namespace Domotica
 					if (connector.socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-						UpdateGUIStringOnly(executeCommand(commandList[listIndex].Item1), commandList[listIndex].Item2);
 						UpdateValue();
-						if (++listIndex >= commandList.Count) listIndex = 0;
 						l++;
 						if (l > 2)
 						{

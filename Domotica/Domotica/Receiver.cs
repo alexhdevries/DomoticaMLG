@@ -28,8 +28,6 @@ namespace Domotica
 		private byte _threadStarted;
 		private readonly MainActivity mainActivity;
 		private readonly Socket socket;
-
-        
         // Constructor
         public Receiver(MainActivity ma, Socket soc)
         {
@@ -60,6 +58,7 @@ namespace Domotica
 		//Thread worker.
 		private void ReceiverThreadWorker ()
 		{
+			List<TextView> commandList = new List<TextView> () {mainActivity.valOne, mainActivity.valTwo};
             string result = "---";
             try {
 				Thread.VolatileWrite (ref _threadStarted, 1);
@@ -76,8 +75,8 @@ namespace Domotica
 
                     if (bytesRead == 4) { 
                         result = Encoding.ASCII.GetString(buffer, 0, bytesRead - 1); // remove \n
-                        if (result == "OFF" || result == " ON") {
-                        }
+						mainActivity.UpdateGUIStringOnly(result, commandList[mainActivity.listIndex]);
+						if (++mainActivity.listIndex >= commandList.Count) mainActivity.listIndex = 0;
 					}
 					Thread.Sleep (10);
 				}

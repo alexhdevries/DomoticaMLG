@@ -75,6 +75,7 @@ namespace Domotica
 		//Thread worker.
 		private void ConnectorThreadWorker ()
 		{
+			List<string> commandList = new List<string> () {"a", "b"};
 			Thread.VolatileWrite (ref _threadStarted, 1);
 			try {
                 IPAddress ip = IPAddress.Parse(ipAddress);   // IPAddress ipAddress = IPAddress.Parse("192.168.1.105");
@@ -100,6 +101,7 @@ namespace Domotica
 
 					//Check if connection is active. 
 					while ((Thread.VolatileRead (ref _threadStarted) == 1) && socket.Connected) {  // protocol: s: get status information
+						socket.Send (Encoding.ASCII.GetBytes (commandList[mainActivity.listIndex]));
 						Thread.Sleep (1000);
 					}
 				}
