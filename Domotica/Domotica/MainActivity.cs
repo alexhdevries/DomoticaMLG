@@ -319,15 +319,19 @@ namespace Domotica
 					}
 
 					if (value > max) {
-						if (connector.CheckStarted ())
-							connector.SendMessage ("1");
-						valOne.SetTextColor (Color.Green);
-						i = 1;
+						if (i == 0) {
+							if (connector.CheckStarted ())
+								connector.SendMessage ("1");
+							valOne.SetTextColor (Color.Green);
+							i = 1;
+						}
 					} else {
-						if (connector.CheckStarted ())
-							connector.SendMessage ("1");
-						valOne.SetTextColor (Color.Red);
-						i = 0;
+						if (i == 1) {
+							if (connector.CheckStarted ())
+								connector.SendMessage ("1");
+							valOne.SetTextColor (Color.Red);
+							i = 0;
+						}
 					}
 				}
 			}
@@ -344,16 +348,20 @@ namespace Domotica
 						return;
 					}
 
-					if (value > max) {
-						if (connector.CheckStarted ())
-							connector.SendMessage ("2");
-						valTwo.SetTextColor (Color.Green);
-						i = 1;
+					if (value < max) {
+						if (j == 0) {
+							if (connector.CheckStarted ())
+								connector.SendMessage ("2");
+							valTwo.SetTextColor (Color.Green);
+							j = 1;
+						}
 					} else {
-						if (connector.CheckStarted ())
-							connector.SendMessage ("2");
-						valTwo.SetTextColor (Color.Red);
-						i = 0;
+						if (j == 1) {
+							if (connector.CheckStarted ())
+								connector.SendMessage ("2");
+							valTwo.SetTextColor (Color.Red);
+							j = 0;
+						}
 					}
 				}
 			}
