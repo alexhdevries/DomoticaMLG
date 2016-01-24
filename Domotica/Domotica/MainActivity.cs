@@ -111,8 +111,6 @@ namespace Domotica
 			toggleOne.SetTextColor (Color.Red);
 			toggleTwo.SetTextColor (Color.Red);
 			toggleThree.SetTextColor (Color.Red);
-			buttonSwitch1.SetTextColor (Color.Red);
-			buttonSwitch2.SetTextColor (Color.Red);
 
             UpdateConnectionState(4, "Disconnected");
 
@@ -181,25 +179,13 @@ namespace Domotica
 			{
 				buttonSwitch1.Click += (sender, e) =>
 				{
-					if (toggleOne.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("1");
-					}
-					if (toggleTwo.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("2");
-					}
-					if (toggleThree.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("3");
-					}
 					if (connector == null) // -> simple sockets
 					{
-						socket.Send(Encoding.ASCII.GetBytes("c"));                 // Send toggle-command to the Arduino
+						socket.Send(Encoding.ASCII.GetBytes("o"));                 // Send toggle-command to the Arduino
 					}
 					else // -> threaded sockets
 					{
-						if (connector.CheckStarted()) connector.SendMessage("c");  // Send toggle-command to the Arduino
+						if (connector.CheckStarted()) connector.SendMessage("o");  // Send toggle-command to the Arduino
 					}
 				};
 			}
@@ -207,25 +193,13 @@ namespace Domotica
 			{
 				buttonSwitch2.Click += (sender, e) =>
 				{
-					if (toggleOne.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("1");
-					}
-					if (toggleTwo.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("2");
-					}
-					if (toggleThree.CurrentTextColor == Color.Green)
-					{
-						if (connector.CheckStarted()) connector.SendMessage("3");
-					}
 					if (connector == null) // -> simple sockets
 					{
-						socket.Send(Encoding.ASCII.GetBytes("d"));                 // Send toggle-command to the Arduino
+						socket.Send(Encoding.ASCII.GetBytes("p"));                 // Send toggle-command to the Arduino
 					}
 					else // -> threaded sockets
 					{
-						if (connector.CheckStarted()) connector.SendMessage("d");  // Send toggle-command to the Arduino
+						if (connector.CheckStarted()) connector.SendMessage("p");  // Send toggle-command to the Arduino
 					}
 				};
 			}
@@ -322,14 +296,14 @@ namespace Domotica
 						if (i == 0) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("1");
-							valOne.SetTextColor (Color.Green);
+							valOne.SetTextColor (Color.Red);
 							i = 1;
 						}
 					} else {
 						if (i == 1) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("1");
-							valOne.SetTextColor (Color.Red);
+							valOne.SetTextColor (Color.Green);
 							i = 0;
 						}
 					}
@@ -352,14 +326,14 @@ namespace Domotica
 						if (j == 0) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("2");
-							valTwo.SetTextColor (Color.Green);
+							valTwo.SetTextColor (Color.Red);
 							j = 1;
 						}
 					} else {
 						if (j == 1) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("2");
-							valTwo.SetTextColor (Color.Red);
+							valTwo.SetTextColor (Color.Green);
 							j = 0;
 						}
 					}
