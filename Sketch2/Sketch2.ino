@@ -132,7 +132,7 @@ void loop()
 					delay(200);
 					mySwitch.send(10844527, 24);
 
-					if ((analogRead(1)) > 90) {
+					if ((analogRead(0)) < 90) {
 						mySwitch.send(10844526, 24);
 						delay(100);
 						mySwitch.send(10844526, 24);
@@ -144,12 +144,13 @@ void loop()
 						mySwitch.send(10844526, 24);
 						delay(100);
 						mySwitch.send(10844526, 24);
+            delay(100000000000);
 					}
 				}
 				else {
-					if ((analogRead(1)) > 90) {
+					if ((analogRead(0)) > 90) {
 						Serial.print("Boven de 90 (donker)   :");
-						Serial.println(analogRead(1));
+						Serial.println(analogRead(0));
 						mySwitch.send(10844526, 24);
 						delay(200);
 						mySwitch.send(10844526, 24);
@@ -158,7 +159,7 @@ void loop()
 					}
 					else {
 						Serial.print("onder de 90 (licht)   :");
-						Serial.println(analogRead(1));
+						Serial.println(analogRead(0));
 						mySwitch.send(10844527, 24);
 						delay(200);
 						mySwitch.send(10844527, 24);
