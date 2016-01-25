@@ -76,7 +76,8 @@ namespace Domotica
 		int j = 0;
 		int k = 0;
 		int l = 0;
-		int timerSpeed = 1000;
+		int m = 1;
+		int timerSpeed = 1;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -137,7 +138,7 @@ namespace Domotica
 
             // timer object, check Arduino state
             // Only one command can be serviced in an timer tick, schedule from list
-			timerSockets = new System.Timers.Timer() { Interval = timerSpeed, Enabled = true }; // Interval >= 750
+			timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = true }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
             { RunOnUiThread(
 				() =>
@@ -145,11 +146,19 @@ namespace Domotica
 					if (connector.socket != null) // only if socket exists
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
-						UpdateValue();
-						l++;
-						if (l > 2)
+						if (m == timerSpeed)
 						{
-							l = 0;
+							UpdateValue();
+							l++;
+							if (l > 2)
+							{
+								l = 0;
+							}
+						}
+						m++;
+						if (m > timerSpeed)
+						{
+							m = 1;
 						}
                     }
                 });
@@ -297,7 +306,7 @@ namespace Domotica
 			} else {
 				updateSpeedText.SetTextColor(Color.Green);
 			}
-			timerSpeed = value * 1000;
+			timerSpeed = value;
 		}
 
 		public void UpdateValue()
