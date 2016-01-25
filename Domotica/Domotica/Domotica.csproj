@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\Main.axml" />
+    <AndroidResource Include="Resources\drawable\PhoneBackground.jpg" />
+    <AndroidResource Include="Resources\drawable\PhoneBack.jpg" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

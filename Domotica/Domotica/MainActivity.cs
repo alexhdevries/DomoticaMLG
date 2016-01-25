@@ -63,9 +63,9 @@ namespace Domotica
         public TextView valOne, valTwo, valThree;
         public EditText thresholdOne, thresholdTwo, thresholdThree, thresholdFour;
         public Button toggleOne, toggleTwo, toggleThree;
-        TextView textViewServerConnect, textViewTimerStateValue;
+        TextView textViewServerConnect, textViewTimerStateValue, updateSpeedText;
         //public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
-        EditText editTextIPAddress, editTextIPPort;
+		EditText editTextIPAddress, editTextIPPort, updateSpeed;
 
         Timer timerClock, timerSockets;             // Timers   
         Socket socket = null;                       // Socket   
@@ -76,6 +76,7 @@ namespace Domotica
 		int j = 0;
 		int k = 0;
 		int l = 0;
+		int timerSpeed = 1000;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -98,6 +99,8 @@ namespace Domotica
             thresholdTwo = FindViewById<EditText>(Resource.Id.editTextThreshold2);
             thresholdThree = FindViewById<EditText>(Resource.Id.editTextThreshold3);
             thresholdFour = FindViewById<EditText>(Resource.Id.editTextThreshold4);
+			updateSpeed = FindViewById<EditText> (Resource.Id.editTextTimerSpeed);
+			updateSpeedText =FindViewById<TextView>(Resource.Id.textViewTimerSpeedText);
             toggleOne = FindViewById<Button>(Resource.Id.buttonToggle1);
             toggleTwo = FindViewById<Button>(Resource.Id.buttonToggle2);
             toggleThree = FindViewById<Button>(Resource.Id.buttonToggle3);
@@ -129,11 +132,12 @@ namespace Domotica
             {
                 RunOnUiThread(() => { textViewTimerStateValue.Text = DateTime.Now.ToString("h:mm:ss"); });
 				RunOnUiThread(() => { valThree.Text = DateTime.Now.ToString("HH:mm"); });
+				UpdateSpeed();
             };
 
             // timer object, check Arduino state
             // Only one command can be serviced in an timer tick, schedule from list
-            timerSockets = new System.Timers.Timer() { Interval = 1000, Enabled = true }; // Interval >= 750
+			timerSockets = new System.Timers.Timer() { Interval = timerSpeed, Enabled = true }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
             { RunOnUiThread(
 				() =>
@@ -275,6 +279,25 @@ namespace Domotica
             }
 
 
+		}
+
+		public void UpdateSpeed()
+		{
+			int value = -1;
+
+			bool successParse = Int32.TryParse (updateSpeed.Text, out value);
+
+			if (!successParse) {
+				updateSpeedText.SetTextColor(Color.Red);
+				return;
+			}
+			if (value < 1) {
+				value = 1;
+				updateSpeedText.SetTextColor (Color.Orange);
+			} else {
+				updateSpeedText.SetTextColor(Color.Green);
+			}
+			timerSpeed = value * 1000;
 		}
 
 		public void UpdateValue()
@@ -502,7 +525,6 @@ namespace Domotica
                         {
                             UpdateConnectionState(2, "Connected");
                             timerSockets.Enabled = true;                //Activate timer for communication with Arduino
-							valTwo.SetTextColor(Color.Purple);
                         }
                     } catch (Exception exception) {
                         timerSockets.Enabled = false;

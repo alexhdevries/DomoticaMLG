@@ -28,8 +28,10 @@
   <string name="threshold_input2">100</string>
   <string name="threshold_input3">06:00</string>
   <string name="threshold_input4">00:00</string>
-  <string name="button_switch_state1">Switch state1</string>
-  <string name="button_switch_state2">Switch state2</string>
+  <string name="button_switch_state1">C vooraan</string>
+  <string name="button_switch_state2">C acteraan</string>
+  <string name="timer_speed_text">Update speed</string>
+  <string name="timer_speed">1</string>
   <string name="value_value_text">0</string>
   <string name="button_pin_state_colour">@android:color/holo_green_dark</string>
   <string name="pin_state_text">Arduino Pin state</string>

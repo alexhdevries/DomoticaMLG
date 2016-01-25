@@ -3,6 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/phoneback"
     android:minWidth="25px"
     android:minHeight="25px">
     <RelativeLayout
@@ -267,13 +268,22 @@
             android:text="@string/button_switch_state1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonSwitch1"
-            android:textColor="@string/button_pin_state_colour" />
+            android:id="@+id/buttonSwitch1" />
         <Button
             android:text="@string/button_switch_state2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonSwitch2"
-            android:textColor="@string/button_pin_state_colour" />
+            android:id="@+id/buttonSwitch2" />
+        <TextView
+            android:text="@string/timer_speed_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTimerSpeedText" />
+        <EditText
+            android:text="@string/timer_speed"
+            android:inputType="number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextTimerSpeed" />
     </LinearLayout>
 </LinearLayout>
