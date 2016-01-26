@@ -1,39 +1,4 @@
-﻿// Xamarin/C# app voor de besturing van een Arduino (Uno with Ethernet Shield) m.b.v. een socket-interface.
-// Arduino server: DomoticaServer.ino
-// De besturing heeft betrekking op het aan- en uitschakelen van een Arduino pin, 
-// waar een led aan kan hangen of, t.b.v. het Domotica project, een RF-zender waarmee een 
-// klik-aan-klik-uit apparaat bestuurd kan worden.
-//
-// De app heeft twee modes die betrekking hebben op de afhandeling van de socket-communicatie: "simple-mode" en "threaded-mode" 
-// Wanneer het statement    //connector = new Connector(this);    wordt uitgecommentarieerd draait de app in "simple-mode",
-// Het opvragen van gegevens van de Arduino (server) wordt dan met een Timer gerealisseerd. (De extra classes Connector.cs, 
-// Receiver.cs en Sender.cs worden dan niet gebruikt.) 
-// Als er een connector wordt aangemaakt draait de app in "threaded mode". De socket-communicatie wordt dan afgehandeld
-// via een Sender- en een Receiver klasse, die worden aangemaakt in de Connector klasse. Deze threaded mode 
-// biedt een generiekere en ook robuustere manier van communicatie, maar is ook moeilijker te begrijpen. 
-// Aanbeveling: start in ieder geval met de simple-mode
-//
-// Werking: De communicatie met de (Arduino) server is gebaseerd op een socket-interface. Het IP- en Port-nummer
-// is instelbaar. Na verbinding kunnen, middels een eenvoudig commando-protocol, opdrachten gegeven worden aan 
-// de server (bijv. pin aan/uit). Indien de server om een response wordt gevraagd (bijv. led-status of een
-// sensorwaarde), wordt deze in een 4-bytes ASCII-buffer ontvangen, en op het scherm geplaatst. Alle commando's naar 
-// de server zijn gecodeerd met 1 char. Bestudeer het protocol in samenhang met de code van de Arduino server.
-// Het default IP- en Port-nummer (zoals dat in het GUI verschijnt) kan aangepast worden in de file "Strings.xml". De
-// ingestelde waarde is gebaseerd op je eigen netwerkomgeving, hier, en in de Arduino-code, is dat een router, die via DHCP
-// in het segment 192.168.1.x vanaf systeemnummer 100 IP-adressen uitgeeft.
-// 
-// Resource files:
-//   Main.axml (voor het grafisch design, in de map Resources->layout)
-//   Strings.xml (voor alle statische strings in het interface, in de map Resources->values)
-// 
-// De software is verder gedocumenteerd in de code. Tijdens de colleges wordt er nadere uitleg over gegeven.
-// 
-// Versie 1.0, 12/12/2015
-// D. Bruin
-// S. Oosterhaven
-// W. Dalof (voor de basis van het Threaded interface)
-//
-using System;
+﻿using System;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
@@ -64,7 +29,6 @@ namespace Domotica
         public EditText thresholdOne, thresholdTwo, thresholdThree, thresholdFour;
         public Button toggleOne, toggleTwo, toggleThree;
         TextView textViewServerConnect, textViewTimerStateValue, updateSpeedText;
-        //public TextView textViewChangePinStateValue, textViewSensorValue, textViewDebugValue;
 		EditText editTextIPAddress, editTextIPPort, updateSpeed;
 
         Timer timerClock, timerSockets;             // Timers   
@@ -72,10 +36,10 @@ namespace Domotica
         Connector connector = null;                 // Connector (simple-mode or threaded-mode)
         List<Tuple<string, TextView>> commandList = new List<Tuple<string, TextView>>();  // List for commands and response places on UI
         public int listIndex = 0;
-		int i = 0;
-		int j = 0;
-		int k = 0;
-		int l = 0;
+		bool updateOneCheck = false;
+		bool updateTwoCheck = false;
+		bool updateThreeCheck = false;
+		int updateOrder = 0;
 		int timerSpeed = 1000;
 
         protected override void OnCreate(Bundle bundle)
@@ -136,7 +100,6 @@ namespace Domotica
             };
 
             // timer object, check Arduino state
-            // Only one command can be serviced in an timer tick, schedule from list
 			timerSockets = new System.Timers.Timer() { Interval = timerSpeed, Enabled = true }; // Interval >= 750
             timerSockets.Elapsed += (obj, args) =>
             { RunOnUiThread(
@@ -146,16 +109,17 @@ namespace Domotica
                     {
                     // Send a command to the Arduino server on every tick (loop though list)
 						UpdateValue();
-						l++;
-						if (l > 2)
+						updateOrder++;
+						if (updateOrder > 2)
 						{
-							l = 0;
+							updateOrder = 0;
 						}
                     }
                 });
             };
 
-			 //Add the "Connect" button handler.
+			//All the buttons go here.
+			//Add the "Connect" button handler.
             if (buttonConnect != null)  // if button exists
             {
                 buttonConnect.Click += (sender, e) =>
@@ -281,7 +245,7 @@ namespace Domotica
 
 		}
 
-		public void UpdateSpeed()
+		public void UpdateSpeed() // updates the speed at which the app checks the sensor values.
 		{
 			int value = -1;
 
@@ -300,9 +264,9 @@ namespace Domotica
 			timerSpeed = value * 1000;
 		}
 
-		public void UpdateValue()
+		public void UpdateValue() // orderly updates the sensor value checks and their interactions.
 		{
-			if (l == 0)
+			if (updateOrder == 0)
 			{
 				if (toggleOne.CurrentTextColor != Color.Red)
 				{
@@ -316,23 +280,23 @@ namespace Domotica
 					}
 
 					if (value > max) {
-						if (i == 0) {
+						if (updateOneCheck == false) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("1");
 							valOne.SetTextColor (Color.Red);
-							i = 1;
+							updateOneCheck = true;
 						}
 					} else {
-						if (i == 1) {
+						if (updateOneCheck == true) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("1");
 							valOne.SetTextColor (Color.Green);
-							i = 0;
+							updateOneCheck = false;
 						}
 					}
 				}
 			}
-			if (l == 1)
+			if (updateOrder == 1)
 			{
 				if (toggleTwo.CurrentTextColor != Color.Red)
 				{
@@ -346,36 +310,36 @@ namespace Domotica
 					}
 
 					if (value < max) {
-						if (j == 0) {
+						if (updateTwoCheck == false) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("2");
 							valTwo.SetTextColor (Color.Red);
-							j = 1;
+							updateTwoCheck = true;
 						}
 					} else {
-						if (j == 1) {
+						if (updateTwoCheck == true) {
 							if (connector.CheckStarted ())
 								connector.SendMessage ("2");
 							valTwo.SetTextColor (Color.Green);
-							j = 0;
+							updateTwoCheck = false;
 						}
 					}
 				}
 			}
-			if (l == 2)
+			if (updateOrder == 2)
 			{
 				if (toggleThree.CurrentTextColor != Color.Red)
 				{
-					if (valThree.Text == thresholdThree.Text && k == 1)
+					if (valThree.Text == thresholdThree.Text && updateThreeCheck == true)
 					{
-						k = 0;
+						updateThreeCheck = false;
 						if (connector.CheckStarted ())
 							connector.SendMessage ("3");
 						valThree.SetTextColor (Color.Green);
 					}
-					if (valThree.Text == thresholdFour.Text && k == 0)
+					if (valThree.Text == thresholdFour.Text && updateThreeCheck == false)
 					{
-						k = 1;
+						updateThreeCheck = true;
 						if (connector.CheckStarted ())
 							connector.SendMessage ("3");
 						valThree.SetTextColor (Color.Red);
